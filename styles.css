@@ -1,0 +1,270 @@
+/* ********** การตั้งค่าพื้นฐาน: ป้องกันการล้น ********** */
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    overflow-x: hidden; 
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+
+/* ********** ส่วนรูปภาพและวิดีโอ: Full-Width ********** */
+.image-placeholder,
+.hero-image,
+.video-section {
+    width: 100%; 
+    margin: 0; 
+    padding: 0;
+    margin-bottom: 20px; 
+    overflow: hidden; 
+}
+
+.image-placeholder img {
+    width: 100%; 
+    height: auto; 
+    display: block;
+    cursor: pointer; 
+}
+
+
+/* ********** สไตล์สำหรับส่วนวิดีโอ ********** */
+.video-section {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.video-placeholder {
+    width: 90%; 
+    max-width: 1200px; 
+    height: 400px;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    position: relative; 
+}
+
+.video-placeholder video {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.youtube-link {
+    width: 100%;
+    text-align: center;
+}
+
+.youtube-link a {
+    color: #fff;
+    background-color: #ff0000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* ********** สไตล์ Modal ทั่วไป (เริ่มต้นซ่อน) ********** */
+.modal {
+    display: none; /* สำคัญ: ซ่อน Modal ไว้ก่อน รอ JS สั่งแสดง */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9); 
+    align-items: center; 
+    justify-content: center;
+    overflow: auto; 
+}
+
+/* ********** สไตล์สำหรับ Hero Pop-up (รูปปก) - ปรับปรุงให้สวยงาม ********** */
+
+.hero-popup-modal {
+    /* พื้นหลังสีดำใสให้ดูหรูหรา */
+    background-color: rgba(0, 0, 0, 0.85); 
+    z-index: 2000; 
+    /* เพิ่มการเปลี่ยนผ่านอย่างนุ่มนวลเมื่อ Modal ปรากฏ */
+    transition: opacity 0.3s ease;
+}
+
+.hero-popup-content {
+    /* ไม่ต้องมีพื้นหลังสีขาวแล้ว เน้นให้รูปภาพดูเด่น */
+    background-color: transparent; 
+    padding: 0;
+    border-radius: 15px; /* มุมโค้งมนมากขึ้น */
+    width: 90%;
+    max-width: 700px; /* ขยายขนาดใหญ่ขึ้นเล็กน้อย */
+    position: relative;
+    /* เพิ่มเงาที่ดูมีมิติและหรูหรา */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); 
+    /* เพิ่มเอฟเฟกต์การเด้งเข้าเล็กน้อยเมื่อเปิด */
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.hero-popup-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px; /* มุมโค้งมนให้เข้ากับกล่อง */
+    /* เพิ่มเส้นขอบบางๆ สีขาวรอบรูปภาพ */
+    border: 5px solid rgba(255, 255, 255, 0.9); 
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* เงาด้านใน */
+}
+
+/* ปรับปุ่มปิดให้เป็นปุ่มลอยตัวที่โดดเด่น */
+#closeHeroPopup {
+    position: absolute;
+    top: -20px; /* เลื่อนขึ้นให้โดดเด่น */
+    right: -20px; /* เลื่อนออกไปทางขวา */
+    color: #fff;
+    background-color: #ff4d4d; /* สีแดงเด่น */
+    border-radius: 50%;
+    width: 40px; /* ขนาดใหญ่ขึ้น */
+    height: 40px; 
+    line-height: 40px;
+    text-align: center;
+    font-size: 24px; /* ตัวอักษรใหญ่ขึ้น */
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 2001;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border: 2px solid #fff; /* ขอบขาวรอบปุ่ม */
+}
+
+#closeHeroPopup:hover {
+    background-color: #cc0000;
+    transform: scale(1.1) rotate(5deg); /* หมุนเล็กน้อยเมื่อโฮเวอร์ */
+}
+
+/* Keyframe สำหรับแอนิเมชันเด้งเข้า */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ********** สไตล์สำหรับ Image Gallery Pop-up Modal ********** */
+.image-popup-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 900px; 
+    text-align: center;
+    background-color: transparent; 
+    padding: 0;
+    border: none;
+    position: relative;
+}
+
+#modalImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh; 
+    object-fit: contain; 
+}
+
+/* สไตล์สำหรับปุ่มปิด Image Gallery Modal (x) */
+#closeImageModal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    opacity: 0.8;
+}
+
+#closeImageModal:hover,
+#closeImageModal:focus {
+    color: #fff;
+    opacity: 1;
+}
+
+/* สไตล์สำหรับข้อความอธิบายรูปภาพ (Caption) */
+#modalCaption {
+    margin-top: 10px;
+    display: block;
+    color: #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+/* ********** ส่วนท้าย ********** */
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+
+/* ********** Media Query ********** */
+@media (max-width: 768px) {
+    .video-section {
+        padding: 30px 0;
+    }
+    .video-placeholder {
+        height: 200px; 
+        width: 100%; 
+    }
+    #closeImageModal {
+        top: 5px;
+        right: 15px;
+        font-size: 30px;
+    }
+    /* ปรับ Hero Pop-up สำหรับมือถือ */
+    .hero-popup-content {
+        padding: 0;
+        max-width: 95%;
+        border-radius: 10px;
+    }
+    .hero-popup-content img {
+        border-width: 3px;
+        border-radius: 10px;
+    }
+    #closeHeroPopup {
+        top: 5px; 
+        right: 5px; 
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
+        border-width: 1px;
+    }
+}
